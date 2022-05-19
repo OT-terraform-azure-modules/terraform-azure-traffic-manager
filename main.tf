@@ -10,20 +10,10 @@ resource "random_id" "server" {
 data "azurerm_resource_group" "res_group" {
   name = var.resource_group_name
 }
-module "public-ip_module" {
-  source              = "git::https://github.com/OT-terraform-azure-modules/terraform-azure-public-ip.git?ref=2843c37c9faf1c2f9bb7b3fd9246384f378dacd2"
-  resource_group_name = data.azurerm_resource_group.res_group.name
-  location            = data.azurerm_resource_group.res_group.location
-  allocation_method   = var.allocation_method
-  public_ip_name      = var.pub_ip_name
-  sku                 = var.sku
-  tags                = var.public_ip_tags
-}
-
 
 resource "azurerm_traffic_manager_profile" "traffic_manager_profile" {
   name                   = join("-", tolist([var.profile_name, random_id.server.hex]))
-  resource_group_name    = data.azurerm_resource_group.res_group.name
+  resource_group_name    = var.resource_group_name
   traffic_routing_method = var.traffic_routing_method
   profile_status         = var.profile_status
   max_return             = var.max_return
