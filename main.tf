@@ -53,7 +53,7 @@ resource "azurerm_traffic_manager_azure_endpoint" "azure" {
   name               = var.azure_endpoint_name[count.index]
   profile_id         = azurerm_traffic_manager_profile.traffic_manager_profile.id
   weight             = element(var.weight, count.index)
-  target_resource_id = element(module.public-ip_module.public_ip_id, count.index)                     #element(var.target_resource_id, count.index) #element(module.public-ip_module.public_ip_id, count.index)    #azurerm_public_ip.example.id #data.azurerm_public_ip.example.id 
+  target_resource_id = var.target_resource_id                     #element(var.target_resource_id, count.index) #element(module.public-ip_module.public_ip_id, count.index)    #azurerm_public_ip.example.id #data.azurerm_public_ip.example.id 
   geo_mappings       = var.geo_mappings[count.index]
 
   subnet {
